@@ -10,3 +10,7 @@ div.title {
 div.title h1 {
     padding: 10px;
 }
+
+main.dashboard {
+    background-color: #FFFFFF;
+}
