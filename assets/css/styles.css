@@ -1,0 +1,12 @@
+header {
+    background-color: #87CEEB
+}
+
+div.title {
+    
+    color: white;
+    text-align: center;
+}
+div.title h1 {
+    padding: 10px;
+}
