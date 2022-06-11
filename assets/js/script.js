@@ -73,6 +73,7 @@ var displayFiveWeather = function (weather) {
         var dailyWeather = weather[i];
 
         var fiveDayWeatherEl = document.createElement("div");
+        fiveDayWeatherEl.classList = "card bg-dark text-light m-1.5";
 
         var fiveDayDate = document.createElement("h5")
         fiveDayDate.textContent = moment.unix(dailyWeather.dt).format("MMM D, YYYY");
@@ -92,12 +93,25 @@ var displayFiveWeather = function (weather) {
 
         fiveDayWeatherEl.appendChild(fiveDayTempEl);
 
+        var fiveDayWind = document.createElement("span");
+        fiveDayWind.classList = "card-body text-center";
+        fiveDayWind.textContent = dailyWeather.wind.speed + " MPH";
+
+        fiveDayWeatherEl.appendChild(fiveDayWind);
+
+        var fiveDayHum = document.createElement("span");
+        fiveDayHum.classList = "card-body text-center";
+        fiveDayHum.textContent = dailyWeather.main.humidity + "%";
+
+        fiveDayWeatherEl.appendChild(fiveDayHum);
+
         fiveDayContainerEl.appendChild(fiveDayWeatherEl);
     }
 }
 
 var citySearch = function () {
     getCityWeather(document.querySelector("#city-search-value").value);
+    getFiveDay(document.querySelector("#city-search-value").value);
 }
 
 document.querySelector("#city-search-btn").addEventListener("click", function () {
