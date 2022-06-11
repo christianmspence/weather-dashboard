@@ -73,12 +73,24 @@ var displayFiveWeather = function (weather) {
         var dailyWeather = weather[i];
 
         var fiveDayWeatherEl = document.createElement("div");
-        
+
         var fiveDayDate = document.createElement("h5")
         fiveDayDate.textContent = moment.unix(dailyWeather.dt).format("MMM D, YYYY");
-        fiveDayDate.classList = "card-header text-center"
+        fiveDayDate.classList = "card-body text-center"
 
         fiveDayWeatherEl.appendChild(fiveDayDate);
+
+        var weatherIcon = document.createElement("img")
+        weatherIcon.classList = "card-body text-center";
+        weatherIcon.setAttribute("src", `https://openweathermap.org/img/wn/${dailyWeather.weather[0].icon}@2x.png`);
+
+        fiveDayWeatherEl.appendChild(weatherIcon);
+
+        var fiveDayTempEl = document.createElement("span");
+        fiveDayTempEl.classList = "card-body text-center";
+        fiveDayTempEl.textContent = dailyWeather.main.temp + " °F";
+
+        fiveDayWeatherEl.appendChild(fiveDayTempEl);
 
         fiveDayContainerEl.appendChild(fiveDayWeatherEl);
     }
