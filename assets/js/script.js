@@ -54,6 +54,17 @@ var displayWeather = function (weather) {
 
 };
 
+var getFiveDay = function (city) {
+    var apiKey = "dcbc862bcf16c64fe76c5467e987cbd0"
+    var apiURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=${apiKey}`
+
+    fetch(apiURL)
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.log(error));
+
+}
+
 var citySearch = function () {
     getCityWeather(document.querySelector("#city-search-value").value);
 }
