@@ -1,5 +1,6 @@
 var weatherContainerEl = document.querySelector("#current-container");
 
+
 var getCityWeather = function (city) {
     var apiKey = "dcbc862bcf16c64fe76c5467e987cbd0"
     var apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`
@@ -8,7 +9,8 @@ var getCityWeather = function (city) {
         .then((response) => response.json())
         .then((data) => displayWeather(data))
         .catch((error) => console.log(error));
-};
+
+}
 
 var displayWeather = function (weather) {
     var temperatureEl = document.createElement("span");
@@ -30,5 +32,15 @@ var displayWeather = function (weather) {
     weatherContainerEl.appendChild(humidityEl);
 
 
+};
+
+var citySearch = function () {
+    getCityWeather(document.querySelector("#city-search-value").value);
 }
+
+document.querySelector("#city-search-btn").addEventListener("click", function () {
+    console.log("search button works");
+    citySearch();
+});
+
 
