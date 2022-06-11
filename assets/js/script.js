@@ -13,6 +13,9 @@ var getCityWeather = function (city) {
 }
 
 var displayWeather = function (weather) {
+
+    weatherContainerEl.textContent = "";
+
     var temperatureEl = document.createElement("span");
     temperatureEl.textContent = "Temperature: " + weather.main.temp + " °F";
     temperatureEl.classList = "list-group-item";
