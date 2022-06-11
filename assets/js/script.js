@@ -1,6 +1,7 @@
 var weatherContainerEl = document.querySelector("#current-container");
 var citySearchInputEl = document.querySelector("#current-city");
 var fiveDayContainerEl = document.querySelector("#five-day-container");
+var cities = [];
 
 
 var getCityWeather = function (city) {
@@ -67,6 +68,7 @@ var getFiveDay = function (city) {
 }
 
 var displayFiveWeather = function (weather) {
+    fiveDayContainerEl.textContent = "";
 
     var weather = weather.list;
     for (var i = 5; i < weather.length; i = i + 8) {
@@ -109,13 +111,36 @@ var displayFiveWeather = function (weather) {
     }
 }
 
+var getUv = function (lat, lon) {
+    var apiKey = "dcbc862bcf16c64fe76c5467e987cbd0"
+    var apiURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude={part}&appid=${apiKey}`
+
+    fetch(apiURL)
+        .then((response) => response.json())
+        .then((data) => displayUv(data))
+        .catch((error) => console.log(error));
+
+}
+
+var displayUv = function (index) {
+
+    var uvEl = document.createElement("div")
+    uvEl.textContent = "UV Index: " + index.current.uvi;
+    uvEl.classList = "list-group-item"
+
+    weatherContainerEl.appendChild(uvEl);
+}
+
 var citySearch = function () {
     getCityWeather(document.querySelector("#city-search-value").value);
     getFiveDay(document.querySelector("#city-search-value").value);
+
 }
 
 document.querySelector("#city-search-btn").addEventListener("click", function () {
     citySearch();
 });
+
+
 
 
