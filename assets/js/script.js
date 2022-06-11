@@ -1,5 +1,6 @@
 var weatherContainerEl = document.querySelector("#current-container");
 var citySearchInputEl = document.querySelector("#current-city");
+var fiveDayContainerEl = document.querySelector("#five-day-container");
 
 
 var getCityWeather = function (city) {
@@ -60,9 +61,27 @@ var getFiveDay = function (city) {
 
     fetch(apiURL)
         .then((response) => response.json())
-        .then((data) => console.log(data))
+        .then((data) => displayFiveWeather(data))
         .catch((error) => console.log(error));
 
+}
+
+var displayFiveWeather = function (weather) {
+
+    var weather = weather.list;
+    for (var i = 5; i < weather.length; i = i + 8) {
+        var dailyWeather = weather[i];
+
+        var fiveDayWeatherEl = document.createElement("div");
+        
+        var fiveDayDate = document.createElement("h5")
+        fiveDayDate.textContent = moment.unix(dailyWeather.dt).format("MMM D, YYYY");
+        fiveDayDate.classList = "card-header text-center"
+
+        fiveDayWeatherEl.appendChild(fiveDayDate);
+
+        fiveDayContainerEl.appendChild(fiveDayWeatherEl);
+    }
 }
 
 var citySearch = function () {
