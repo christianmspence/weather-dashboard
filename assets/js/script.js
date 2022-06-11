@@ -1,4 +1,5 @@
 var weatherContainerEl = document.querySelector("#current-container");
+var citySearchInputEl = document.querySelector("#current-city");
 
 
 var getCityWeather = function (city) {
@@ -15,6 +16,22 @@ var getCityWeather = function (city) {
 var displayWeather = function (weather) {
 
     weatherContainerEl.textContent = "";
+    citySearchInputEl.textContent = "";
+
+    var currentCity = document.createElement("span")
+    currentCity.textContent = (document.querySelector("#city-search-value").value);
+
+    citySearchInputEl.appendChild(currentCity);
+
+    var currentDate = document.createElement("span")
+    currentDate.textContent = " (" + moment(weather.dt.value).format("MMM D, YYYY") + ") ";
+
+    citySearchInputEl.appendChild(currentDate);
+
+    var weatherIcon = document.createElement("img")
+    weatherIcon.setAttribute("src", `https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`);
+
+    citySearchInputEl.appendChild(weatherIcon);
 
     var temperatureEl = document.createElement("span");
     temperatureEl.textContent = "Temperature: " + weather.main.temp + " °F";
@@ -42,7 +59,6 @@ var citySearch = function () {
 }
 
 document.querySelector("#city-search-btn").addEventListener("click", function () {
-    console.log("search button works");
     citySearch();
 });
 
