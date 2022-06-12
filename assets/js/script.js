@@ -155,6 +155,11 @@ function loadCities() {
     });
 }
 
+document.querySelector(".past-cities").addEventListener("click", function (e) {
+    getCityWeather(e.target.textContent);
+    getFiveDay(e.target.textContent);
+});
+
 
 var citySearch = function () {
     getCityWeather(document.querySelector("#city-search-value").value);
