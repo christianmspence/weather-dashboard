@@ -1,7 +1,7 @@
 var weatherContainerEl = document.querySelector("#current-container");
 var citySearchInputEl = document.querySelector("#current-city");
 var fiveDayContainerEl = document.querySelector("#five-day-container");
-let searchHistArray = JSON.parse(localStorage.getItem("last-city")) || [];
+var searchHistArray = JSON.parse(localStorage.getItem("last-city")) || [];
 
 
 var getCityWeather = function (city) {
@@ -141,11 +141,26 @@ function saveSearchHistory(city) {
     }
 }
 
+function loadCities() {
+    var quickSearchList = document.querySelector(".past-cities");
+    quickSearchList.innerHTML = '';
+
+    searchHistArray.forEach(function (lastCity) {
+        var searchHistoryEl = document.createElement("a");
+        searchHistoryEl.setAttribute("href", "#!");
+        searchHistoryEl.classList = "d-flex w-100 btn-dark border p-2";
+        searchHistoryEl.textContent = lastCity;
+
+        quickSearchList.appendChild(searchHistoryEl);
+    });
+}
+
 
 var citySearch = function () {
     getCityWeather(document.querySelector("#city-search-value").value);
     getFiveDay(document.querySelector("#city-search-value").value);
     saveSearchHistory(document.querySelector("#city-search-value").value);
+    loadCities();
 
 }
 
