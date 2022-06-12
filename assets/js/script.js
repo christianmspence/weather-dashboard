@@ -21,7 +21,7 @@ var displayWeather = function (weather) {
     citySearchInputEl.textContent = "";
 
     var currentCity = document.createElement("span")
-    currentCity.textContent = (document.querySelector("#city-search-value").value);
+    currentCity.textContent = weather.name;
 
     citySearchInputEl.appendChild(currentCity);
 
