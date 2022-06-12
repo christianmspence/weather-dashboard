@@ -3,7 +3,7 @@ var citySearchInputEl = document.querySelector("#current-city");
 var fiveDayContainerEl = document.querySelector("#five-day-container");
 var searchHistArray = JSON.parse(localStorage.getItem("last-city")) || [];
 
-
+//fetch current weather conditions from API
 var getCityWeather = function (city) {
     var apiKey = "dcbc862bcf16c64fe76c5467e987cbd0"
     var apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`
@@ -16,10 +16,11 @@ var getCityWeather = function (city) {
 }
 
 var displayWeather = function (weather) {
-
+    //clear content upon new search
     weatherContainerEl.textContent = "";
     citySearchInputEl.textContent = "";
 
+    //apending current weather info
     var currentCity = document.createElement("span")
     currentCity.textContent = weather.name;
 
@@ -53,11 +54,12 @@ var displayWeather = function (weather) {
 
     weatherContainerEl.appendChild(humidityEl);
 
+    //needed lat and lon coordinates to search for UV Index
     var lat = weather.coord.lat;
     var lon = weather.coord.lon;
     getUv(lat, lon)
 };
-
+//fetch 5day weather conditions from API
 var getFiveDay = function (city) {
     var apiKey = "dcbc862bcf16c64fe76c5467e987cbd0"
     var apiURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=${apiKey}`
@@ -70,12 +72,15 @@ var getFiveDay = function (city) {
 }
 
 var displayFiveWeather = function (weather) {
+    //clear content upon new search
     fiveDayContainerEl.textContent = "";
 
+    //loop thru 5day forecast
     var weather = weather.list;
     for (var i = 5; i < weather.length; i = i + 8) {
         var dailyWeather = weather[i];
 
+        //apending 5day weather info
         var fiveDayWeatherEl = document.createElement("div");
         fiveDayWeatherEl.classList = "card bg-dark text-light m-1.5";
 
@@ -112,7 +117,7 @@ var displayFiveWeather = function (weather) {
         fiveDayContainerEl.appendChild(fiveDayWeatherEl);
     }
 }
-
+//fetch current UV conditions from API
 var getUv = function (lat, lon) {
     var apiKey = "dcbc862bcf16c64fe76c5467e987cbd0"
     var apiURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude={part}&appid=${apiKey}`
@@ -126,13 +131,25 @@ var getUv = function (lat, lon) {
 
 var displayUv = function (index) {
 
+    //appending UV index
     var uvEl = document.createElement("div")
     uvEl.textContent = "UV Index: " + index.current.uvi;
     uvEl.classList = "list-group-item"
 
+    if (index.current.uvi <= 2) {
+        uvEl.classList = "green"
+    } else if (index.current.uvi > 2 && index.current.uvi <= 5) {
+        uvEl.classList = "yellow "
+    } else if (index.current.uvi > 5 && index.current.uvi <= 7) {
+        uvEl.classList = "orange"
+    } else if (index.current.uvi >= 8) {
+        uvEl.classList = "red"
+    };
+
     weatherContainerEl.appendChild(uvEl);
 }
 
+//save searched cities
 function saveSearchHistory(city) {
     if (!searchHistArray.includes(city)) {
         searchHistArray.push(city);
@@ -141,10 +158,12 @@ function saveSearchHistory(city) {
     }
 }
 
+//load searched cities upon opening/refreshing page
 function loadCities() {
     var quickSearchList = document.querySelector(".past-cities");
     quickSearchList.innerHTML = '';
 
+    //appending previously searched cities 
     searchHistArray.forEach(function (lastCity) {
         var searchHistoryEl = document.createElement("a");
         searchHistoryEl.setAttribute("href", "#!");
@@ -155,6 +174,7 @@ function loadCities() {
     });
 }
 
+//event listener for past cities
 document.querySelector(".past-cities").addEventListener("click", function (e) {
     getCityWeather(e.target.textContent);
     getFiveDay(e.target.textContent);
@@ -169,6 +189,7 @@ var citySearch = function () {
 
 }
 
+//event listener for city search bar
 document.querySelector("#city-search-btn").addEventListener("click", function () {
     citySearch();
 });
