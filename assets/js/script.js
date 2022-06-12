@@ -1,7 +1,7 @@
 var weatherContainerEl = document.querySelector("#current-container");
 var citySearchInputEl = document.querySelector("#current-city");
 var fiveDayContainerEl = document.querySelector("#five-day-container");
-var cities = [];
+let searchHistArray = JSON.parse(localStorage.getItem("last-city")) || [];
 
 
 var getCityWeather = function (city) {
@@ -53,7 +53,9 @@ var displayWeather = function (weather) {
 
     weatherContainerEl.appendChild(humidityEl);
 
-
+    var lat = weather.coord.lat;
+    var lon = weather.coord.lon;
+    getUv(lat, lon)
 };
 
 var getFiveDay = function (city) {
@@ -131,9 +133,19 @@ var displayUv = function (index) {
     weatherContainerEl.appendChild(uvEl);
 }
 
+function saveSearchHistory(city) {
+    if (!searchHistArray.includes(city)) {
+        searchHistArray.push(city);
+        localStorage.setItem("last-city", JSON.stringify(searchHistArray));
+        console.log(searchHistArray);
+    }
+}
+
+
 var citySearch = function () {
     getCityWeather(document.querySelector("#city-search-value").value);
     getFiveDay(document.querySelector("#city-search-value").value);
+    saveSearchHistory(document.querySelector("#city-search-value").value);
 
 }
 
