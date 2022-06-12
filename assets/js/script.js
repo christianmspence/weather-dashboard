@@ -136,6 +136,7 @@ var displayUv = function (index) {
     uvEl.textContent = "UV Index: " + index.current.uvi;
     uvEl.classList = "list-group-item"
 
+    //change UV background color depending on value returned
     if (index.current.uvi <= 2) {
         uvEl.classList = "green"
     } else if (index.current.uvi > 2 && index.current.uvi <= 5) {
